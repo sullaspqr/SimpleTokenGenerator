@@ -89,7 +89,7 @@ namespace SimpleTokenGenerate
             app.UseCors("AllowAllOrigins");
             app.UseSwagger();
             app.UseSwaggerUI();
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             // --- NAGYON FONTOS: Authentication kell az Authorization elé! ---
             app.UseAuthentication();
@@ -102,5 +102,6 @@ namespace SimpleTokenGenerate
     }
 
 }
+
 
 
