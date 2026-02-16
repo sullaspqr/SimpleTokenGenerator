@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models; // Ez kell az OpenApiInfo-hoz
 using SimpleTokenGenerate.Models;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
 using System.Text;
 
 namespace SimpleTokenGenerate
@@ -100,4 +102,5 @@ namespace SimpleTokenGenerate
     }
 
 }
+
 
