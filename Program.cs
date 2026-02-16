@@ -11,8 +11,9 @@ namespace SimpleTokenGenerate
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddDbContext<SimpletokenContext>();
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+            builder.Services.AddDbContext<SimpletokenContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
             builder.Services.AddScoped<GenerateToken>();
 
             builder.Services.AddControllers();
@@ -72,15 +73,20 @@ namespace SimpleTokenGenerate
                     ValidAudience = auidience
                 };
             });
-
-            var app = builder.Build();
-
-            if (app.Environment.IsDevelopment())
+           builder.Services.AddCors(options =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
+                options.AddPolicy("AllowAllOrigins",
+                    policy =>
+                    {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                    });
+            });
+            var app = builder.Build();
+            app.UseCors("AllowAllOrigins");
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseHttpsRedirection();
 
             // --- NAGYON FONTOS: Authentication kell az Authorization elé! ---
@@ -94,3 +100,4 @@ namespace SimpleTokenGenerate
     }
 
 }
+
