@@ -21,7 +21,7 @@ namespace SimpleTokenGenerate
             // --- SWAGGER KONFIGURÁCIÓ MÓDOSÍTÁSA ---
             builder.Services.AddSwaggerGen(opt =>
             {
-                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "SimpleToken API", Version = "v1" });
+                 opt.SwaggerDoc("v1", new OpenApiInfo { Title = "SimpleToken API by FZ, modified by NB", Version = "v1.1" });
 
                 // Meghatározzuk a Bearer sémát
                 opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -92,4 +92,5 @@ namespace SimpleTokenGenerate
             app.Run();
         }
     }
+
 }
