@@ -14,8 +14,19 @@ namespace SimpleTokenGenerate
         {
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                Console.WriteLine("HIBA: A CONNECTION_STRING környezeti változó üres!");
+            }
             builder.Services.AddDbContext<SimpletokenContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+                {
+                if (!string.IsNullOrEmpty(connectionString))
+                   {
+                    // Pomelo MySQL használata
+                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                    }
+                });                                              
+   
             builder.Services.AddScoped<GenerateToken>();
 
             builder.Services.AddControllers();
@@ -102,6 +113,7 @@ namespace SimpleTokenGenerate
     }
 
 }
+
 
 
 
