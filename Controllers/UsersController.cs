@@ -14,37 +14,37 @@ namespace SimpleTokenGenerate.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly GenerateToken generateToken;
-        public UsersController(GenerateToken generateToken)
+        private readonly GenerateToken _generateToken;
+        private readonly SimpletokenContext _context;
+
+        // A konstruktorban kérjük el a Context-et és a Token generátort is
+        public UsersController(GenerateToken generateToken, SimpletokenContext context)
         {
-            this.generateToken = generateToken;
+            _generateToken = generateToken;
+            _context = context;
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public ActionResult Login(string UName, string Pass)
         {
-            using (var context = new SimpletokenContext())
+            // Nincs 'using', a _context-et használjuk, amit a rendszertől kaptunk
+            var user = _context.Users.FirstOrDefault(x => x.UserName == UName && x.Password == Pass);
+
+            if (user != null)
             {
-                var user = context.Users.FirstOrDefault(x => x.UserName == UName && x.Password == Pass);
-
-                if (user != null)
-                {
-                    return Ok( new { token = generateToken.Token(user.UserName, user.Id)});
-                }
-
-                return BadRequest();
+                // Feltételezve, hogy a GenerateToken.Token metódusod így néz ki
+                return Ok(new { token = _generateToken.Token(user.UserName, user.Id) });
             }
+
+            return Unauthorized("Érvénytelen felhasználónév vagy jelszó!");
         }
 
         [Authorize]
         [HttpGet]
         public ActionResult GetAllUser()
         {
-            using (var context = new SimpletokenContext())
-            {
-                return Ok(context.Users.ToList());
-            }
+            // Itt is a beoltott _context-et használjuk
+            return Ok(_context.Users.ToList());
         }
-
-    } 
+    }
 }
