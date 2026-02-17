@@ -27,7 +27,7 @@ namespace SimpleTokenGenerate
                 Issuer = "auth-api",
                 Subject = new ClaimsIdentity(claimList),
                 IssuedAt = DateTime.UtcNow,        // <--- Itt adjuk hozzá az iat mezőt!
-                Expires = DateTime.UtcNow.AddDays(1), // UtcNow használata javasolt
+                Expires = DateTime.UtcNow.AddMinutes(10), // UtcNow használata javasolt
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key), 
                     SecurityAlgorithms.HmacSha256Signature)
