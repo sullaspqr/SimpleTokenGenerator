@@ -23,12 +23,15 @@ namespace SimpleTokenGenerate.Controllers
             _generateToken = generateToken;
             _context = context;
         }
-
+    public class LoginModel {
+        public string UName { get; set; }
+        public string Pass { get; set; }
+    }
         [HttpPost("Login")]
-        public ActionResult Login(string UName, string Pass)
+        public ActionResult Login([FromBody], LoginModel model)
         {
             // Nincs 'using', a _context-et használjuk, amit a rendszertől kaptunk
-            var user = _context.Users.FirstOrDefault(x => x.UserName == UName && x.Password == Pass);
+            var user = _context.Users.FirstOrDefault(x => x.UserName == model.UName && x.Password == model.Pass);
 
             if (user != null)
             {
