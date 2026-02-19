@@ -12,8 +12,8 @@ namespace SimpleTokenGenerate.Controllers
 {
     public class LoginModel 
     {
-        public string UName { get; set; }
-        public string Pass { get; set; }
+        public string uName { get; set; }
+        public string pass { get; set; }
     }
     [Route("api/[controller]")]
     [ApiController]
@@ -33,7 +33,7 @@ namespace SimpleTokenGenerate.Controllers
         public ActionResult Login([FromBody] LoginModel model)
         {
             // Nincs 'using', a _context-et használjuk, amit a rendszertől kaptunk és a model objektumon keresztül érjük el az adatokat:
-            var user = _context.Users.FirstOrDefault(x => x.UserName == model.UName && x.Password == model.Pass);
+            var user = _context.Users.FirstOrDefault(x => x.UserName == model.uName && x.Password == model.pass);
 
             if (user != null)
             {
