@@ -86,18 +86,9 @@ namespace SimpleTokenGenerate
                     ValidAudience = auidience
                 };
             });
-           builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins",
-                    policy =>
-                    {
-                    policy.AllowAnyOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader();
-                    });
-            });
+            builder.Services.AddCors(c => { c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); });
             var app = builder.Build();
-            app.UseCors("AllowAllOrigins");
+            
             app.UseSwagger();
             app.UseSwaggerUI();
             // app.UseHttpsRedirection();
@@ -105,7 +96,7 @@ namespace SimpleTokenGenerate
             // --- NAGYON FONTOS: Authentication kell az Authorization elé! ---
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.MapControllers();
 
             app.Run();
@@ -113,6 +104,7 @@ namespace SimpleTokenGenerate
     }
 
 }
+
 
 
 
