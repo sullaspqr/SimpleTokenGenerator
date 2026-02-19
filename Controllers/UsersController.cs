@@ -10,6 +10,11 @@ using System.Text;
 
 namespace SimpleTokenGenerate.Controllers
 {
+    public class LoginModel 
+    {
+        public string UName { get; set; }
+        public string Pass { get; set; }
+    }
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -23,14 +28,11 @@ namespace SimpleTokenGenerate.Controllers
             _generateToken = generateToken;
             _context = context;
         }
-    public class LoginModel {
-        public string UName { get; set; }
-        public string Pass { get; set; }
-    }
+
         [HttpPost("Login")]
-        public ActionResult Login([FromBody], LoginModel model)
+        public ActionResult Login([FromBody] LoginModel model)
         {
-            // Nincs 'using', a _context-et használjuk, amit a rendszertől kaptunk
+            // Nincs 'using', a _context-et használjuk, amit a rendszertől kaptunk és a model objektumon keresztül érjük el az adatokat:
             var user = _context.Users.FirstOrDefault(x => x.UserName == model.UName && x.Password == model.Pass);
 
             if (user != null)
